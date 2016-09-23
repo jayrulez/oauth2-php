@@ -1348,6 +1348,7 @@ class OAuth2
 
         // Issue a refresh token also, if we support them
         if ($this->storage instanceof IOAuth2RefreshTokens && $issue_refresh_token === true) {
+            /*
             $token["refresh_token"] = $this->genAccessToken();
             $this->storage->createRefreshToken(
                 $token["refresh_token"],
@@ -1361,6 +1362,19 @@ class OAuth2
             if (null !== $this->oldRefreshToken) {
                 $this->storage->unsetRefreshToken($this->oldRefreshToken);
                 $this->oldRefreshToken = null;
+            }*/
+
+            if(null != $this->oldRefreshToken) {
+                $token["refresh_token"] = $this->oldRefreshToken->getToken();
+            }else{
+                $token["refresh_token"] = $this->genAccessToken();
+                $this->storage->createRefreshToken(
+                    $token["refresh_token"],
+                    $client,
+                    $data,
+                    time() + ($refresh_token_lifetime ?: $this->getVariable(self::CONFIG_REFRESH_LIFETIME)),
+                    $scope
+                );
             }
         }
 
