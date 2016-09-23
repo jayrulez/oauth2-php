@@ -1365,7 +1365,7 @@ class OAuth2
             }*/
 
             if(null != $this->oldRefreshToken) {
-                $token["refresh_token"] = $this->oldRefreshToken->getToken();
+                $token["refresh_token"] = $this->oldRefreshToken;
             }else{
                 $token["refresh_token"] = $this->genAccessToken();
                 $this->storage->createRefreshToken(
